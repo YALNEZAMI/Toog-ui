@@ -1,0 +1,94 @@
+<main class="p-40 flex justify-center items-center min-h-max">
+  <form
+    (ngSubmit)="register()"
+    class="min-w-full shadow-xl min-h-72 p-3 border-separate border-2 border-orange-300"
+  >
+    <h1 class="text-center font-bold">Sign up</h1>
+    <!--alert error-->
+    <p
+      *ngIf="!response.ok"
+      class="bg-red-600 relative text-center text-white p-1 rounded"
+    >
+      {{ response.message }}
+      <span
+        (click)="response.ok = true"
+        class="absolute right-3 top-0 cursor-pointer text-white border-white hover:text-xl"
+        >x</span
+      >
+    </p>
+    <!--name-->
+    <div>
+      <label for="name">Your name:</label>
+      <br />
+      <input
+        [(ngModel)]="user.name"
+        name="name"
+        required
+        type="text"
+        id="name"
+        placeholder="Jack Baki"
+        class="border-2 border-black p-1 px-2 rounded w-full"
+      />
+    </div>
+    <!--email-->
+    <div>
+      <label for="email">Your email:</label>
+      <br />
+      <input
+        [(ngModel)]="user.email"
+        name="email"
+        required
+        type="email"
+        id="email"
+        placeholder="Jack.Baki@gmail.com"
+        class="border-2 border-black p-1 px-2 rounded w-full"
+      />
+    </div>
+    <!--password-->
+
+    <div>
+      <label for="password">Your password:</label>
+      <br />
+      <input
+        [(ngModel)]="user.password"
+        name="password"
+        required
+        type="password"
+        id="password"
+        placeholder="123456"
+        class="border-2 border-black p-1 px-2 rounded w-full"
+      />
+    </div>
+    <!--confirm the password-->
+    <div>
+      <label for="confirmPassword">Confirm the password:</label>
+      <br />
+      <input
+        [(ngModel)]="user.confirmPassword"
+        name="confirmPassword"
+        required
+        type="password"
+        id="confirmPassword"
+        placeholder="123456"
+        class="border-2 border-black p-1 px-2 rounded w-full"
+      />
+    </div>
+    <!--submit button-->
+    <div class="text-center">
+      <button type="submit" class="bg-orange-300 rounded-md p-2 my-2">
+        Register
+      </button>
+    </div>
+    <!--already member-->
+    <div class="text-center">
+      <p>
+        Your are already a member ?
+        <span
+          (click)="goToLogin()"
+          class="text-blue-600 hover:text-blue-500 cursor-pointer"
+          >Login</span
+        >
+      </p>
+    </div>
+  </form>
+</main>
