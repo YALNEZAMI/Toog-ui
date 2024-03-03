@@ -10,13 +10,13 @@ import { Task } from '../models/Task';
 export class TaskService {
   constructor(private httpClient: HttpClient) {}
 
-  createTask(Task: Task) {
-    return this.httpClient.post(vars.apiUri + '/task', Task);
+  createTask(task: Task) {
+    return this.httpClient.post(vars.apiUri + '/task', task);
   }
   uploadTaskPhoto(file: File, taskId: string) {
     const fd = new FormData();
     fd.append('file', file);
     fd.append('taskId', taskId);
-    return this.httpClient.post(vars.apiUri + '/task/uploadPhoto', fd);
+    return this.httpClient.post(vars.apiUri + '/task/uploadTaskPhoto', fd);
   }
 }

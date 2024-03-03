@@ -19,6 +19,8 @@
   <!-- Teams-->
   <div class="min-h-32">
     <span class="underline text-gray-500 m-2">Teams</span>
-    <div></div>
+    <div class="flex flex-wrap">
+      <app-team *ngFor="let team of teams" [team]="team"></app-team>
+    </div>
   </div>
 </main>

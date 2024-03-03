@@ -9,7 +9,5 @@ import { Project } from '../../models/Project';
 export class ProjectComponent {
   @Input() project: Project = {};
   //constructor
-  constructor() {
-    console.log(this.project);
-  }
+  constructor() {}
 }

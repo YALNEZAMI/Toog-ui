@@ -17,11 +17,14 @@ export class ProjectService {
   createProject(project: Project) {
     return this.httpClient.post(vars.apiUri + '/project', project);
   }
-  uploadProfilePhoto(file: File, projectId: string) {
+  uploadProjectPhoto(file: File, projectId: string) {
     const fd = new FormData();
     fd.append('file', file);
     fd.append('projectId', projectId);
-    return this.httpClient.post(vars.apiUri + '/project/uploadPhoto', fd);
+    return this.httpClient.post(
+      vars.apiUri + '/project/uploadProjectPhoto',
+      fd
+    );
   }
   getProjects() {
     return this.httpClient.get(

@@ -11,9 +11,9 @@ import { User } from '../../models/User';
 export class LoginComponent {
   //constructor
   constructor(private router: Router, private userService: UserService) {
-    this.userService.subscribeToUser().subscribe((user) => {
-      console.log(user);
-    });
+    document.body.style.backgroundColor = 'white';
+
+    this.userService.subscribeToUser().subscribe((user) => {});
   }
 
   //properties

@@ -21,16 +21,15 @@ export class ProfileNavBarComponent {
   //items
   items: item[] = [
     {
-      name: 'Log out',
-      route: 'Log out',
+      name: 'Logout',
       classes: {
         'bg-red-500': true,
+        'p-2': true,
       },
       method: this.logout,
     },
     {
       name: 'My projects',
-      route: 'My-projects',
       classes: {
         'bg-blue-500': true,
       },
@@ -39,7 +38,6 @@ export class ProfileNavBarComponent {
 
     {
       name: 'My tasks',
-      route: 'My-tasks',
       classes: {
         'bg-green-500': true,
       },
@@ -49,7 +47,6 @@ export class ProfileNavBarComponent {
 }
 interface item {
   name: string;
-  route: string;
   classes: any;
   method: any;
 }

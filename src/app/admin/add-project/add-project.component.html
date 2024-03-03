@@ -2,7 +2,7 @@
   <!--return button-->
   <button
     (click)="return()"
-    class="fixed top-1 left-1 bg-orange-300 p-1 rounded"
+    class="fixed top-1 z-20 left-1 bg-orange-300 p-1 rounded"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,11 +19,15 @@
       />
     </svg>
   </button>
-  <form (ngSubmit)="addProject()" class="border-2 border-orange-300 p-5 w-1/2">
+  <form
+    (ngSubmit)="addProject()"
+    class="border-y-2 border-orange-300 p-5 w-full sm:w-1/2"
+  >
     <!--project alert-->
     <p
+      id="alertProject"
       *ngIf="projectResponse.error"
-      class="relative bg-red-500 p-1 pr-3 rounded text-center"
+      class="relative bg-red-500 p-1 pr-3 my-2 rounded text-center"
     >
       {{ projectResponse.message }}
       <span
@@ -32,6 +36,22 @@
         >x</span
       >
     </p>
+    <!--project photo-->
+    <div class="flex justify-center">
+      <img
+        (click)="clickProjectPhoto()"
+        [src]="project.photo"
+        alt=""
+        id="projectPhotoPreview"
+        class="w-24 h-24 cursor-pointer rounded-full border-2 border-gray-500"
+      />
+      <input
+        (change)="projectPhotoChange($event)"
+        type="file"
+        id="projectPhotoInput"
+        class="hidden"
+      />
+    </div>
     <!--project name-->
     <div>
       <label for="name">Name*:</label> <br />
@@ -80,7 +100,7 @@
         <span
           *ngFor="let participant of resultingParticipants"
           (click)="addParticipantToProject(participant)"
-          class="truncate hover:bg-white cursor-pointer px-1 my-1"
+          class="truncate hover:bg-white cursor-pointer px-1 m-1"
           >{{ participant.name }}</span
         >
       </div>
@@ -88,14 +108,14 @@
       <div class="flex flex-wrap space-x-2 m-1">
         <span
           *ngFor="let participant of getParticipants()"
-          class="flex bg-gray-400 p-1 rounded-md space-x-1"
+          class="flex bg-gray-400 p-1 rounded-md m-1"
         >
           <img
-            class="w-7 h-7 rounded-full"
+            class="w-7 h-7 rounded-full border-2 border-gray-500"
             [src]="participant.profilePhoto"
             alt=""
           />
-          <p>{{ participant.name }}</p>
+          <p class="underline mx-1">{{ participant.name }}</p>
           <span
             (click)="popProjectParticipant(participant)"
             class="text-white cursor-pointer px-1 pt-1 h-max rounded bg-red-600"
@@ -122,7 +142,7 @@
     <div class="flex justify-center">
       <form
         (ngSubmit)="addTask()"
-        class="p-7 rounded w-3/4 flex flex-col justify-center border-2 border-green-300"
+        class="p-7 rounded w-3/4 flex flex-col justify-center border-y-2 border-green-300"
       >
         <!--task alert-->
         <p
@@ -136,6 +156,22 @@
             >x</span
           >
         </p>
+        <!--task photo-->
+        <div class="flex justify-center">
+          <img
+            (click)="clickTaskPhoto()"
+            [src]="task.photo"
+            alt=""
+            id="taskPhotoPreview"
+            class="w-24 h-24 cursor-pointer rounded-full border-2 border-gray-500"
+          />
+          <input
+            (change)="TaskPhotoChange($event)"
+            type="file"
+            id="taskPhotoInput"
+            class="hidden"
+          />
+        </div>
         <!--task name-->
         <div>
           <label for="taskName">Task name*:</label>
@@ -195,7 +231,7 @@
                 (click)="addParticipantToTask(participant)"
               >
                 <img
-                  class="w-7 h-7 rounded-full"
+                  class="w-7 h-7 rounded-full border-2 border-gray-500"
                   [src]="participant.profilePhoto"
                   alt=""
                 />

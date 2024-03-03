@@ -46,6 +46,7 @@ export class AddProjectComponent {
     photo: vars.apiUri + '/taskPhoto/default_task.png',
   };
   tasks: Task[] = [];
+  tasksPhotos: any[] = [];
   taskResponse: {
     error: boolean;
     message: string;
@@ -60,7 +61,9 @@ export class AddProjectComponent {
     error: false,
     message: '',
   };
+  projectPhoto: any;
   //methods
+
   getParticipants() {
     return this.project.participants;
   }
@@ -71,20 +74,35 @@ export class AddProjectComponent {
         error: true,
         message: 'Project name is required !',
       };
+      const alertProject = document.getElementById('alertProject');
+      alertProject?.scrollIntoView();
       return;
     }
     this.projectService
       .createProject(this.project)
       .subscribe((project: Project) => {
-        console.log(project);
+        //upload project photo
+        if (this.projectPhoto != undefined) {
+          this.projectService
+            .uploadProjectPhoto(this.projectPhoto, project.id!)
+            .subscribe((p: Project) => {});
+        }
+
         //add tasks
         for (let i = 0; i < this.tasks.length; i++) {
           const task = this.tasks[i];
           task.project_id = project.id;
-          this.taskService.createTask(task).subscribe((t) => {
-            console.log(t);
+          this.taskService.createTask(task).subscribe((t: Task) => {
+            //upload task photo if exist
+
+            if (this.tasksPhotos[i] != undefined) {
+              this.taskService
+                .uploadTaskPhoto(this.tasksPhotos[i], t.id!)
+                .subscribe((t2: Task) => {});
+            }
           });
         }
+        this.router.navigate(['/admin/dashbord']);
       });
   }
   searchParticipant() {
@@ -96,11 +114,6 @@ export class AddProjectComponent {
     this.userService
       .searchUserByName(this.searchParticipantsKey)
       .subscribe((users: any) => {
-        console.log(users);
-        users = users.filter((u: User) => {
-          u.id != this.userService.getUser().id;
-        });
-
         this.resultingParticipants = users;
       });
   }
@@ -125,7 +138,6 @@ export class AddProjectComponent {
       };
       return;
     }
-    console.log(this.task);
 
     const task = {
       name: this.task.name,
@@ -145,11 +157,15 @@ export class AddProjectComponent {
       participants: [
         // { name: 'yaser' }, { name: 'munir' }
       ],
+      photo: vars.apiUri + '/taskPhoto/default_task.png',
     };
+    //reset default img
+    const photo = document.getElementById(
+      'taskPhotoPreview'
+    ) as HTMLImageElement;
+    photo.src = vars.apiUri + '/taskPhoto/default_task.png';
   }
   addParticipantToTask(participant: User) {
-    console.log('addprtto task');
-
     //check if already selected
     if (this.task.participants?.includes(participant)) {
       return;
@@ -158,7 +174,7 @@ export class AddProjectComponent {
   }
   popProjectParticipant(participant: User) {
     this.project.participants = this.project.participants?.filter((p) => {
-      p != participant;
+      return p != participant;
     });
     //pop it from current task
     this.popTaskParticipant(participant);
@@ -166,17 +182,14 @@ export class AddProjectComponent {
     for (let i = 0; i < this.tasks.length; i++) {
       const task = this.tasks[i];
       task.participants = task.participants?.filter((p) => {
-        p != participant;
+        return p != participant;
       });
     }
   }
   popTaskParticipant(participant: User) {
-    console.log('poptaskspart');
-
     this.task.participants = this.task.participants?.filter((p) => {
-      p != participant;
+      return p != participant;
     });
-    console.log(this.task.participants);
   }
   isInculdedInTaskParticipants(participant: User): boolean {
     return this.task.participants!.includes(participant);
@@ -187,7 +200,57 @@ export class AddProjectComponent {
   }
   popTask(task: Task) {
     this.tasks = this.tasks.filter((t) => {
-      t != task;
+      return t != task;
     });
+  }
+  //task photo
+  clickTaskPhoto() {
+    document.getElementById('taskPhotoInput')?.click();
+  }
+  TaskPhotoChange(e: any) {
+    const imagePreview = document.getElementById(
+      'taskPhotoPreview'
+    ) as HTMLImageElement;
+    const file = e.target!.files[0];
+    //set the global file variable
+    let currentTasksIndex = this.tasks.length;
+    this.tasksPhotos[currentTasksIndex] = file;
+
+    // Create a FileReader object to read the file
+    const reader = new FileReader();
+
+    // Set up the FileReader to display the image when loaded
+    reader.onload = function (e) {
+      // Update the src attribute of the image tag with the data URL of the selected image
+      let str: string = e.target?.result as string;
+      imagePreview!.src = str;
+    };
+
+    // Read the selected file as a data URL (base64 encoded string)
+    reader.readAsDataURL(file);
+  }
+  //project photo
+  clickProjectPhoto() {
+    document.getElementById('projectPhotoInput')?.click();
+  }
+  projectPhotoChange(e: any) {
+    const imagePreview = document.getElementById(
+      'projectPhotoPreview'
+    ) as HTMLImageElement;
+    const file = e.target!.files[0];
+    //set the global file variable
+    this.projectPhoto = file;
+
+    // Create a FileReader object to read the file
+    const reader = new FileReader();
+
+    // Set up the FileReader to display the image when loaded
+    reader.onload = function (e) {
+      // Update the src attribute of the image tag with the data URL of the selected image
+      let str: string = e.target?.result as string;
+      imagePreview!.src = str;
+    };
+    // Read the selected file as a data URL (base64 encoded string)
+    reader.readAsDataURL(file);
   }
 }

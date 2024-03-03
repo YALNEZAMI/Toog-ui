@@ -5,6 +5,7 @@ import { RegisterComponent } from './Auth/register/register.component';
 import { DashbordComponent } from './admin/dashbord/dashbord.component';
 import { ProfileComponent } from './admin/profile/profile.component';
 import { AddProjectComponent } from './admin/add-project/add-project.component';
+import { AddTeamComponent } from './admin/add-team/add-team.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -35,6 +36,10 @@ const routes: Routes = [
       {
         path: 'addProject',
         component: AddProjectComponent,
+      },
+      {
+        path: 'addTeam',
+        component: AddTeamComponent,
       },
     ],
   },

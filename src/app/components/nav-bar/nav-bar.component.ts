@@ -24,4 +24,7 @@ export class NavBarComponent {
   formProject() {
     this.router.navigate(['/admin/addProject']);
   }
+  formTeam() {
+    this.router.navigate(['/admin/addTeam']);
+  }
 }

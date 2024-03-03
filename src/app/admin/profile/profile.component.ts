@@ -28,13 +28,10 @@ export class ProfileComponent {
     password: '',
     confirmPassword: '',
     profilePhoto: this.userService.getUser().profilePhoto,
+    theme: this.userService.getUser().theme,
   };
   //methods
   changeFile(event: any) {
-    const input = document.getElementById(
-      'profilephotoInput'
-    ) as HTMLInputElement;
-    console.log(input.files);
     const imagePreview = document.getElementById(
       'imagePreview'
     ) as HTMLImageElement;
@@ -70,6 +67,12 @@ export class ProfileComponent {
       this.response.message = 'Passwords is so short !';
       return;
     }
+    //update the theme locally
+    if (this.user.theme == 'white') {
+      document.body.style.backgroundColor = 'white';
+    } else {
+      document.body.style.backgroundColor = 'black';
+    }
     const usertoUpdate: User = this.user;
 
     this.userService.updateUser(usertoUpdate).subscribe((userUpdated: User) => {
@@ -92,8 +95,6 @@ export class ProfileComponent {
   //check availablity of name
   checkNameAvailablity(): void {
     this.userService.isAvailableName(this.user.name!).subscribe((res) => {
-      console.log(res);
-
       this.isAvailableName = res;
     });
   }

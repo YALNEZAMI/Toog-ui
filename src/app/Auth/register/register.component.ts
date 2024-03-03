@@ -10,7 +10,9 @@ import { vars } from '../../env';
 })
 export class RegisterComponent {
   //constructor
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService) {
+    document.body.style.backgroundColor = 'white';
+  }
   //properties
   env = vars;
   response: any = {
@@ -25,6 +27,7 @@ export class RegisterComponent {
     password: '',
     confirmPassword: '',
     profilePhoto: this.env.apiUri + '/profilePhoto/default_user.png',
+    theme: 'white',
   };
 
   //methods
@@ -34,8 +37,6 @@ export class RegisterComponent {
   //check availablity of name
   checkNameAvailablity(): void {
     this.userService.isAvailableName(this.user.name!).subscribe((res) => {
-      console.log(res);
-
       this.isAvailableName = res;
     });
   }
@@ -89,7 +90,6 @@ export class RegisterComponent {
     const input = document.getElementById(
       'profilephotoInput'
     ) as HTMLInputElement;
-    console.log(input.files);
     const imagePreview = document.getElementById(
       'imagePreview'
     ) as HTMLImageElement;

@@ -5,4 +5,5 @@ export interface User {
   password?: string;
   confirmPassword?: string;
   profilePhoto?: string;
+  theme?: string;
 }

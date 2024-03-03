@@ -1,4 +1,4 @@
-<main class="flex flex-row-reverse p-2 border-b-2 border-black">
+<main class="flex flex-row-reverse p-2 border-b-2">
   <!--profile-->
   <div
     (click)="goToProfile()"
@@ -32,7 +32,7 @@
       <span (click)="formProject()" class="hover:bg-white rounded"
         >project</span
       >
-      <span class="hover:bg-white rounded">team</span>
+      <span (click)="formTeam()" class="hover:bg-white rounded">team</span>
     </div>
   </div>
 </main>

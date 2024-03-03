@@ -13,6 +13,8 @@ import { ProfileComponent } from './admin/profile/profile.component';
 import { ProfileNavBarComponent } from './components/profile-nav-bar/profile-nav-bar.component';
 import { AddProjectComponent } from './admin/add-project/add-project.component';
 import { ProjectComponent } from './components/project/project.component';
+import { AddTeamComponent } from './admin/add-team/add-team.component';
+import { TeamComponent } from './components/team/team.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { ProjectComponent } from './components/project/project.component';
     ProfileNavBarComponent,
     AddProjectComponent,
     ProjectComponent,
+    AddTeamComponent,
+    TeamComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],

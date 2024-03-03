@@ -2,7 +2,7 @@
   <!--return button-->
   <button
     (click)="return()"
-    class="fixed top-1 left-1 bg-orange-300 p-1 rounded"
+    class="fixed z-20 top-1 left-1 bg-orange-300 p-1 rounded"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@
   <div>
     <form
       (ngSubmit)="update()"
-      class="min-w-full shadow-xl min-h-72 p-3 border-separate border-2 border-orange-300"
+      class="min-w-full shadow-xl min-h-72 p-3 border-separate border-y-2 border-orange-300"
     >
       <!--alert error-->
       <p
@@ -95,6 +95,20 @@
             >Available name .</small
           >
         </div>
+      </div>
+      <!--theme-->
+      <div>
+        <label for="theme">Theme</label>
+        <br />
+        <select
+          [(ngModel)]="user.theme"
+          name="theme"
+          id="theme"
+          class="border-2 border-black"
+        >
+          <option value="white">white</option>
+          <option value="black" class="bg-black text-white">black</option>
+        </select>
       </div>
       <!--email-->
       <div>
