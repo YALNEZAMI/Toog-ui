@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../Services/user.service';
-import { User } from '../models/User';
+import { UserService } from '../../Services/user.service';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,11 @@ import { User } from '../models/User';
 })
 export class LoginComponent {
   //constructor
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService) {
+    this.userService.subscribeToUser().subscribe((user) => {
+      console.log(user);
+    });
+  }
 
   //properties
   response = {
@@ -18,13 +22,21 @@ export class LoginComponent {
     message: '',
   };
   user: User = {
-    email: '',
-    password: '',
+    email: 'yaserAlnezami@gmail.com',
+    password: '111111',
   };
   //methods
   goToRegister() {
     this.router.navigate(['/auth/register']);
   }
+  setUser(user: any) {
+    user = {
+      id: 'aaa',
+      name: 'aaa',
+    };
+    this.userService.setUser(user);
+  }
+
   login() {
     //checking
     if (this.user.email == '' || this.user.password == '') {
@@ -33,16 +45,13 @@ export class LoginComponent {
     }
     //request
     this.userService.login(this.user).subscribe((res) => {
-      console.log(res);
-
       if (res == null) {
         this.response.ok = false;
         this.response.message = 'Email or password is incorrect !';
-        // setTimeout(() => {
-        //   this.response.ok = true;
-        //   console.log(true);
-        // }, 3000);
       } else {
+        //set user in the store
+        this.userService.setUser(res);
+        //redirect to dashbord
         this.router.navigate(['/admin/dashbord']);
       }
     });

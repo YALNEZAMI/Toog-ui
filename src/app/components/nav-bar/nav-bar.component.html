@@ -1,0 +1,38 @@
+<main class="flex flex-row-reverse p-2 border-b-2 border-black">
+  <!--profile-->
+  <div
+    (click)="goToProfile()"
+    id="profile"
+    class="bg-orange-300 mx-2 rounded-md p-1 relative cursor-pointer"
+  >
+    <img
+      [src]="getUserPhoto()"
+      crossorigin="anonymous"
+      class="w-10 h-10 rounded-full"
+      alt="HELO"
+    />
+
+    <small
+      id="name"
+      class="hidden absolute top-12 left-0 w-full p-1 rounded truncate bg-gray-300 text-center"
+      >{{ getUserName() }}</small
+    >
+  </div>
+  <!--create project-->
+  <div
+    id="addButton"
+    class="bg-orange-300 rounded-md p-1 min-w-10 flex items-center justify-center relative cursor-pointer"
+  >
+    <span>+</span>
+    <!--what to add list-->
+    <div
+      id="entityToAddList"
+      class="hidden absolute top-12 w-full min-w-20 p-1 rounded truncate bg-gray-300 text-center flex-col"
+    >
+      <span (click)="formProject()" class="hover:bg-white rounded"
+        >project</span
+      >
+      <span class="hover:bg-white rounded">team</span>
+    </div>
+  </div>
+</main>

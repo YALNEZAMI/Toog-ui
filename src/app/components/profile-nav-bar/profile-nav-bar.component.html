@@ -1,0 +1,10 @@
+<main class="flex p-2 flex-row-reverse bg-gray-400">
+  <div
+    *ngFor="let item of items"
+    [class]="item.classes"
+    (click)="item.method()"
+    class="min-w-24 p-1 rounded-md text-center mx-2 h-max cursor-pointer border-2 border-transparent hover:border-white"
+  >
+    {{ item.name }}
+  </div>
+</main>

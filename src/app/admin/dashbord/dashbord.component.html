@@ -1,0 +1,24 @@
+<main>
+  <!--navbar-->
+  <app-nav-bar></app-nav-bar>
+  <!-- tasks-->
+  <div>
+    <span class="underline text-gray-500 m-2">Tasks</span>
+    <div class="min-h-32"></div>
+  </div>
+  <!-- projects-->
+  <div class="min-h-32">
+    <span class="underline text-gray-500 m-2">Projects</span>
+    <div class="flex flex-wrap">
+      <app-project
+        *ngFor="let project of projects"
+        [project]="project"
+      ></app-project>
+    </div>
+  </div>
+  <!-- Teams-->
+  <div class="min-h-32">
+    <span class="underline text-gray-500 m-2">Teams</span>
+    <div></div>
+  </div>
+</main>

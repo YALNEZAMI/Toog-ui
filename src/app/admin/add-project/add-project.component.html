@@ -1,0 +1,278 @@
+<main class="flex items-center justify-center min-h-screen h-full">
+  <!--return button-->
+  <button
+    (click)="return()"
+    class="fixed top-1 left-1 bg-orange-300 p-1 rounded"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-6 h-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  </button>
+  <form (ngSubmit)="addProject()" class="border-2 border-orange-300 p-5 w-1/2">
+    <!--project alert-->
+    <p
+      *ngIf="projectResponse.error"
+      class="relative bg-red-500 p-1 pr-3 rounded text-center"
+    >
+      {{ projectResponse.message }}
+      <span
+        (click)="projectResponse.error = false"
+        class="text-white absolute right-0 top-1 cursor-pointer mx-2"
+        >x</span
+      >
+    </p>
+    <!--project name-->
+    <div>
+      <label for="name">Name*:</label> <br />
+      <input
+        type="text"
+        class="border-2 border-black px-2 rounded w-full"
+        placeholder="Skoazell"
+        [(ngModel)]="project.name"
+        name="name"
+      />
+    </div>
+    <!--project description-->
+    <div>
+      <label for="description">Description:</label> <br />
+
+      <textarea
+        placeholder="This app is a way to put favourite applicatoins in the same place..."
+        [(ngModel)]="project.description"
+        class="border-2 border-black px-2 rounded w-full"
+        name="description"
+      ></textarea>
+    </div>
+    <!--project deadLine date-->
+    <div>
+      <label for="deadLineProject">Project dead line:</label><br />
+      <input
+        [(ngModel)]="project.deadLine"
+        name="projectDeadLine"
+        type="datetime-local"
+        class="rounded border-2 border-black p-1 w-full"
+      />
+    </div>
+    <!--project participants-->
+    <div class="relative">
+      <label for="searchParticipantsKey">Participant:</label> <br />
+      <input
+        type="text"
+        class="border-2 border-black px-2 rounded w-full"
+        placeholder="search by userName"
+        [(ngModel)]="searchParticipantsKey"
+        (input)="searchParticipant()"
+        name="searchParticipantsKey"
+      />
+      <!--resulting participants-->
+      <div class="flex flex-col absolute bg-gray-400 min-w-20">
+        <span
+          *ngFor="let participant of resultingParticipants"
+          (click)="addParticipantToProject(participant)"
+          class="truncate hover:bg-white cursor-pointer px-1 my-1"
+          >{{ participant.name }}</span
+        >
+      </div>
+      <!--selected participants-->
+      <div class="flex flex-wrap space-x-2 m-1">
+        <span
+          *ngFor="let participant of getParticipants()"
+          class="flex bg-gray-400 p-1 rounded-md space-x-1"
+        >
+          <img
+            class="w-7 h-7 rounded-full"
+            [src]="participant.profilePhoto"
+            alt=""
+          />
+          <p>{{ participant.name }}</p>
+          <span
+            (click)="popProjectParticipant(participant)"
+            class="text-white cursor-pointer px-1 pt-1 h-max rounded bg-red-600"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-3 h-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              /></svg
+          ></span>
+        </span>
+      </div>
+    </div>
+    <!--tasks-->
+    <label for="taks">Tasks:</label>
+
+    <div class="flex justify-center">
+      <form
+        (ngSubmit)="addTask()"
+        class="p-7 rounded w-3/4 flex flex-col justify-center border-2 border-green-300"
+      >
+        <!--task alert-->
+        <p
+          *ngIf="taskResponse.error"
+          class="relative bg-red-500 p-1 pr-3 rounded text-center"
+        >
+          {{ taskResponse.message }}
+          <span
+            (click)="taskResponse.error = false"
+            class="text-white absolute right-0 top-1 cursor-pointer mx-2"
+            >x</span
+          >
+        </p>
+        <!--task name-->
+        <div>
+          <label for="taskName">Task name*:</label>
+          <br />
+          <input
+            placeholder="Login Page"
+            class="border-2 border-black rounded p-1 w-full"
+            type="text"
+            name="taskName"
+            [(ngModel)]="task.name"
+            required
+          />
+        </div>
+        <!--task descritpion-->
+        <div>
+          <label for="taskDescription">Task description:</label>
+          <br />
+          <textarea
+            placeholder="The login page must contain email and password fields..."
+            [(ngModel)]="task.description"
+            class="border-2 border-black px-2 rounded w-full"
+            name="description"
+          ></textarea>
+        </div>
+        <!--task deadLine date-->
+        <div>
+          <label for="deadLineTask">Task dead line:</label><br />
+          <input
+            type="datetime-local"
+            class="rounded border-2 border-black p-1 w-full"
+          />
+        </div>
+        <!--task deadLine date-->
+        <div>
+          <label for="deadLineTask">Task importance order:</label><br />
+          <input
+            [(ngModel)]="task.order"
+            type="number"
+            name="taskOrder"
+            placeholder="0 is the more important"
+            class="rounded border-2 border-black p-1 w-full"
+          />
+        </div>
+        <!--selected task participants-->
+        <div>
+          <label for="taskParticipants">Task participants:</label> <br />
+          <div class="flex flex-wrap space-x-2 m-1">
+            <div
+              *ngFor="let participant of getParticipants()"
+              class="cursor-pointer min-w-10 flex bg-gray-400 p-1 rounded-md space-x-1"
+              [class]="{
+                'bg-green-300': isInculdedInTaskParticipants(participant)
+              }"
+            >
+              <div
+                class="flex space-x-1"
+                (click)="addParticipantToTask(participant)"
+              >
+                <img
+                  class="w-7 h-7 rounded-full"
+                  [src]="participant.profilePhoto"
+                  alt=""
+                />
+                <small class="pt-1 truncate">{{ participant.name }}</small>
+              </div>
+              <!--unselect button-->
+              <button
+                *ngIf="isInculdedInTaskParticipants(participant)"
+                (click)="popTaskParticipant(participant)"
+                class="text-white cursor-pointer m-1 px-1 h-max w-max rounded bg-red-600"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-3 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              <!--select button-->
+              <button
+                *ngIf="!isInculdedInTaskParticipants(participant)"
+                (click)="addParticipantToTask(participant)"
+                class="text-white cursor-pointer m-1 px-1 h-max w-max rounded bg-green-600"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-3 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m4.5 12.75 6 6 9-13.5"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!--task submit-->
+        <button class="bg-green-300 p-1 min-w-10 h-10 rounded-full my-1">
+          Add task
+        </button>
+      </form>
+    </div>
+    <!--tasks added-->
+    <label *ngIf="tasks.length != 0" for="addedTasks">Added tasks:</label>
+    <div class="flex flex-wrap space-x-1 my-2">
+      <span
+        class="bg-gray-400 relative p-1 pr-3 rounded-md w-20 text-center truncate"
+        *ngFor="let currentTask of tasks; let i = index"
+        >{{ currentTask.name }}
+        <button
+          (click)="popTask(currentTask)"
+          class="absolute right-0 top-0 bg-red-500 rounded p-1"
+        >
+          x
+        </button>
+      </span>
+    </div>
+    <!--project submit-->
+    <div class="flex justify-center my-1">
+      <button type="submit" class="bg-orange-300 p-2 w-full h-10 rounded-full">
+        Create project
+      </button>
+    </div>
+  </form>
+</main>

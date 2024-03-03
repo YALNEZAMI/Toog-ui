@@ -1,0 +1,7 @@
+#profile:hover #name{
+    display: block;
+
+}
+#addButton:hover #entityToAddList{
+    display: flex;
+}

@@ -16,11 +16,30 @@
         >x</span
       >
     </p>
+    <!--profile photo-->
+    <div class="flex justify-center my-2">
+      <img
+        (click)="clickPhoto()"
+        src="{{ env.apiUri + '/profilePhoto/default_user.png' }}"
+        alt="profile photo"
+        class="w-20 h-20 cursor-pointer"
+        id="imagePreview"
+      />
+      <input
+        accept=".png , .jpg"
+        type="file"
+        (change)="changeFile($event)"
+        class="hidden"
+        name="profilephotoInput"
+        id="profilephotoInput"
+      />
+    </div>
     <!--name-->
     <div>
       <label for="name">Your name:</label>
       <br />
       <input
+        (input)="checkNameAvailablity()"
         [(ngModel)]="user.name"
         name="name"
         required
@@ -29,6 +48,15 @@
         placeholder="Jack Baki"
         class="border-2 border-black p-1 px-2 rounded w-full"
       />
+      <!--name non available message-->
+      <small *ngIf="!isAvailableName" class="text-red-500"
+        >This name is already taken, pick another !</small
+      >
+      <!--name  available message-->
+
+      <small *ngIf="isAvailableName" class="text-green-500"
+        >Available name .</small
+      >
     </div>
     <!--email-->
     <div>
@@ -75,7 +103,11 @@
     </div>
     <!--submit button-->
     <div class="text-center">
-      <button type="submit" class="bg-orange-300 rounded-md p-2 my-2">
+      <button
+        [disabled]="!isAvailableName"
+        type="submit"
+        class="bg-orange-300 rounded-md p-2 my-2"
+      >
         Register
       </button>
     </div>
