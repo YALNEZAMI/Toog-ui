@@ -15,6 +15,13 @@ import { AddProjectComponent } from './admin/add-project/add-project.component';
 import { ProjectComponent } from './components/project/project.component';
 import { AddTeamComponent } from './admin/add-team/add-team.component';
 import { TeamComponent } from './components/team/team.component';
+import { TaskComponent } from './components/task/task.component';
+import { TasksComponent } from './admin/tasks/tasks.component';
+import { ProjectsComponent } from './admin/projects/projects.component';
+import { TeamsComponent } from './admin/teams/teams.component';
+import { ProjectViewComponent } from './admin/project/project.component';
+import { TaskViewComponent } from './admin/task/task.component';
+import { TeamViewComponent } from './admin/team/team.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +36,13 @@ import { TeamComponent } from './components/team/team.component';
     ProjectComponent,
     AddTeamComponent,
     TeamComponent,
+    TaskComponent,
+    TasksComponent,
+    ProjectsComponent,
+    TeamsComponent,
+    ProjectViewComponent,
+    TaskViewComponent,
+    TeamViewComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],

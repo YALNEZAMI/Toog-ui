@@ -24,6 +24,7 @@ export class AddProjectComponent {
   project: Project = {
     name: '',
     description: '',
+    deadLine: new Date(),
     owner: this.userService.getUser(),
     photo: vars.apiUri + '/projectPhoto/default_project.png',
     participants: [
@@ -62,12 +63,15 @@ export class AddProjectComponent {
     message: '',
   };
   projectPhoto: any;
+  isCreating: boolean = false;
   //methods
 
   getParticipants() {
     return this.project.participants;
   }
-  addProject() {
+  createProject() {
+    //disable the create button
+    this.isCreating = true;
     //check exeptions
     if (this.project.name == '') {
       this.projectResponse = {
@@ -80,20 +84,22 @@ export class AddProjectComponent {
     }
     this.projectService
       .createProject(this.project)
-      .subscribe((project: Project) => {
+      .subscribe((project: any) => {
         //upload project photo
         if (this.projectPhoto != undefined) {
           this.projectService
             .uploadProjectPhoto(this.projectPhoto, project.id!)
-            .subscribe((p: Project) => {});
+            .subscribe((p: any) => {});
         }
 
         //add tasks
         for (let i = 0; i < this.tasks.length; i++) {
           const task = this.tasks[i];
-          task.project_id = project.id;
+          task.projectId = project.id;
           this.taskService.createTask(task).subscribe((t: Task) => {
             //upload task photo if exist
+            console.log(this.tasks);
+            console.log(this.tasksPhotos);
 
             if (this.tasksPhotos[i] != undefined) {
               this.taskService
@@ -102,7 +108,10 @@ export class AddProjectComponent {
             }
           });
         }
-        this.router.navigate(['/admin/dashbord']);
+        //redirect to dashbord
+        setTimeout(() => {
+          this.router.navigate(['/admin/dashbord']);
+        }, 1000 * this.tasksPhotos.length);
       });
   }
   searchParticipant() {
@@ -118,13 +127,15 @@ export class AddProjectComponent {
       });
   }
   addParticipantToProject(participant: User) {
-    //check if already selected
-    if (this.project.participants!.includes(participant)) {
-      return;
-    }
     //reset the search key and result to empty
     this.searchParticipantsKey = '';
     this.resultingParticipants = [];
+    //check if already selected
+    for (let participantIterator of this.project.participants!) {
+      if (participant.id == participantIterator.id) {
+        return;
+      }
+    }
     //add the participant to the participants array
     this.project.participants!.push(participant);
   }
@@ -139,15 +150,15 @@ export class AddProjectComponent {
       return;
     }
 
-    const task = {
-      name: this.task.name,
-      description: this.task.description,
-      deadLine: this.task.deadLine,
-      participants: this.task.participants,
-      order: this.task.order,
-    };
+    // const task = {
+    //   name: this.task.name,
+    //   description: this.task.description,
+    //   deadLine: this.task.deadLine,
+    //   participants: this.task.participants,
+    //   order: this.task.order,
+    // };
 
-    this.tasks.push(task);
+    this.tasks.push(this.task);
     //reset task
     this.task = {
       name: '',
@@ -252,5 +263,14 @@ export class AddProjectComponent {
     };
     // Read the selected file as a data URL (base64 encoded string)
     reader.readAsDataURL(file);
+  }
+  getToday() {
+    // Get the current date
+    const today = new Date();
+    // Format the date as YYYY-MM-DD
+    const formattedDate = today.toISOString().split('T')[0];
+    console.log(formattedDate);
+
+    return '2024-03-04';
   }
 }

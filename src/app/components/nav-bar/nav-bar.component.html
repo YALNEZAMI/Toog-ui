@@ -1,4 +1,6 @@
 <main class="flex flex-row-reverse p-2 border-b-2">
+  <!--Site name-->
+  <h1 class="absolute font-bold left-1 top-1 text-5xl underline">CoopIt</h1>
   <!--profile-->
   <div
     (click)="goToProfile()"
@@ -23,7 +25,22 @@
     id="addButton"
     class="bg-orange-300 rounded-md p-1 min-w-10 flex items-center justify-center relative cursor-pointer"
   >
-    <span>+</span>
+    <span
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        />
+      </svg>
+    </span>
     <!--what to add list-->
     <div
       id="entityToAddList"

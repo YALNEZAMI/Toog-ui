@@ -48,8 +48,10 @@ export class AddTeamComponent {
           .uploadTeamPhoto(this.teamPhoto, t.id!)
           .subscribe((t2) => {
             //redirect to dashboard
-            this.router.navigate(['/admin/dashbord']);
+            this.return();
           });
+      } else {
+        this.return;
       }
     });
   }

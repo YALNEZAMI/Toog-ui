@@ -2,7 +2,7 @@ import { User } from './User';
 
 export interface Task {
   id?: string;
-  project_id?: string;
+  projectId?: string;
   name?: string;
   description?: string;
   deadLine?: any;

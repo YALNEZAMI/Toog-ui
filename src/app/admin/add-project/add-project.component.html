@@ -1,4 +1,4 @@
-<main class="flex items-center justify-center min-h-screen h-full">
+<main class="flex items-center justify-center min-h-screen h-full p-4">
   <!--return button-->
   <button
     (click)="return()"
@@ -20,7 +20,7 @@
     </svg>
   </button>
   <form
-    (ngSubmit)="addProject()"
+    (ngSubmit)="createProject()"
     class="border-y-2 border-orange-300 p-5 w-full sm:w-1/2"
   >
     <!--project alert-->
@@ -79,6 +79,7 @@
       <label for="deadLineProject">Project dead line:</label><br />
       <input
         [(ngModel)]="project.deadLine"
+        [min]="project.deadLine"
         name="projectDeadLine"
         type="datetime-local"
         class="rounded border-2 border-black p-1 w-full"
@@ -200,6 +201,8 @@
         <div>
           <label for="deadLineTask">Task dead line:</label><br />
           <input
+            [min]="task.deadLine"
+            [max]="project.deadLine"
             type="datetime-local"
             class="rounded border-2 border-black p-1 w-full"
           />
@@ -306,7 +309,11 @@
     </div>
     <!--project submit-->
     <div class="flex justify-center my-1">
-      <button type="submit" class="bg-orange-300 p-2 w-full h-10 rounded-full">
+      <button
+        [disabled]="isCreating"
+        type="submit"
+        class="bg-orange-300 p-2 w-full h-10 rounded-full"
+      >
         Create project
       </button>
     </div>

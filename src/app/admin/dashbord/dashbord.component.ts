@@ -4,6 +4,9 @@ import { ProjectService } from '../../Services/project.service';
 import { Project } from '../../models/Project';
 import { TeamService } from '../../Services/team.service';
 import { Team } from '../../models/Team';
+import { TaskService } from '../../Services/task.service';
+import { Task } from '../../models/Task';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashbord',
   templateUrl: './dashbord.component.html',
@@ -14,7 +17,9 @@ export class DashbordComponent {
   constructor(
     private userService: UserService,
     private projectService: ProjectService,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private taskService: TaskService,
+    private router: Router
   ) {
     //set theme
     if (this.userService.getUser().theme == 'black') {
@@ -30,18 +35,24 @@ export class DashbordComponent {
       .subscribe((teams: any) => {
         this.teams = teams;
       });
+    //get initial tasks
+    this.taskService
+      .getTeamsWithMemberId(this.userService.getUser().id!)
+      .subscribe((tasks: any) => {
+        this.tasks = tasks;
+      });
   }
   //attributes
   projects: Project[] = [];
   teams: Team[] = [];
+  tasks: Task[] = [];
+  name = '';
+
   //methods
   getName() {
     return this.userService.getUser().name;
   }
-  changeName() {
-    const user1 = this.userService.getUser();
-    user1.name = this.name;
-    this.userService.setUser(user1);
+  goTo(route: string) {
+    this.router.navigate([route]);
   }
-  name = '';
 }

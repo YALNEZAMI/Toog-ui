@@ -21,7 +21,7 @@ export class ProfileNavBarComponent {
   //items
   items: item[] = [
     {
-      name: 'Logout',
+      name: 'logout',
       classes: {
         'bg-red-500': true,
         'p-2': true,
@@ -29,7 +29,7 @@ export class ProfileNavBarComponent {
       method: this.logout,
     },
     {
-      name: 'My projects',
+      name: 'projects',
       classes: {
         'bg-blue-500': true,
       },
@@ -37,7 +37,7 @@ export class ProfileNavBarComponent {
     },
 
     {
-      name: 'My tasks',
+      name: 'teams',
       classes: {
         'bg-green-500': true,
       },

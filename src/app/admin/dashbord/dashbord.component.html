@@ -1,15 +1,32 @@
-<main>
+<main class="p-2">
   <!--navbar-->
   <app-nav-bar></app-nav-bar>
   <!-- tasks-->
-  <div>
-    <span class="underline text-gray-500 m-2">Tasks</span>
-    <div class="min-h-32"></div>
+  <div class="min-h-52">
+    <span
+      (click)="goTo('/admin/tasks')"
+      class="underline text-gray-500 m-2 hover:text-gray-600 cursor-pointer"
+      >Tasks</span
+    >
+    <div id="tasksContainer" class="flex overflow-x-auto py-4">
+      <p *ngIf="tasks.length == 0" class="text-center underline w-full">
+        No tasks yet !
+      </p>
+      <app-task *ngFor="let task of tasks" [task]="task"></app-task>
+    </div>
   </div>
   <!-- projects-->
-  <div class="min-h-32">
-    <span class="underline text-gray-500 m-2">Projects</span>
-    <div class="flex flex-wrap">
+  <div class="min-h-52">
+    <span
+      (click)="goTo('/admin/projects')"
+      class="underline text-gray-500 m-2 hover:text-gray-600 cursor-pointer"
+      >Projects</span
+    >
+    <div id="projectsContainer" class="flex overflow-x-auto py-4">
+      <p *ngIf="projects.length == 0" class="text-center underline w-full">
+        No projects yet !
+      </p>
+
       <app-project
         *ngFor="let project of projects"
         [project]="project"
@@ -17,9 +34,17 @@
     </div>
   </div>
   <!-- Teams-->
-  <div class="min-h-32">
-    <span class="underline text-gray-500 m-2">Teams</span>
-    <div class="flex flex-wrap">
+  <div class="min-h-52">
+    <span
+      (click)="goTo('/admin/teams')"
+      class="underline text-gray-500 m-2 hover:text-gray-600 cursor-pointer"
+      >Teams</span
+    >
+    <div id="teamsContainer" class="flex overflow-x-auto py-4">
+      <p *ngIf="teams.length == 0" class="text-center underline w-full">
+        No teams yet !
+      </p>
+
       <app-team *ngFor="let team of teams" [team]="team"></app-team>
     </div>
   </div>

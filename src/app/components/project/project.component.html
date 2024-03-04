@@ -1,9 +1,14 @@
-<main class="cursor-pointer">
-  <div class="bg-gray-400 w-24 h-32 m-1">
+<main (click)="goTo()" class="cursor-pointer rounded">
+  <div class="bg-gray-400 w-24 h-32 m-1 rounded">
     <div class="flex justify-center">
-      <img [src]="project.photo" alt="" class="w-24 h-20" />
+      <img
+        [src]="project.photo"
+        crossorigin="anonymous"
+        alt=""
+        class="w-24 h-20"
+      />
     </div>
-    <div class="text-center font-bold truncate">{{ project.name }}</div>
+    <div class="text-center font-bold truncate px-2">{{ project.name }}</div>
     <div class="text-center font-serif truncate px-1">
       {{ project.deadLine }}
     </div>

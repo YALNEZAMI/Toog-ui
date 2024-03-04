@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Team } from '../../models/Team';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team',
@@ -7,6 +8,9 @@ import { Team } from '../../models/Team';
   styleUrl: './team.component.css',
 })
 export class TeamComponent {
-  constructor() {}
   @Input() team: Team = {};
+  constructor(private router: Router) {}
+  goTo() {
+    this.router.navigate(['/admin/teams/' + this.team.id]);
+  }
 }

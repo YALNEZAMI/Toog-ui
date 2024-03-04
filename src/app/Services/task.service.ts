@@ -13,10 +13,20 @@ export class TaskService {
   createTask(task: Task) {
     return this.httpClient.post(vars.apiUri + '/task', task);
   }
+  getTeamsWithMemberId(participantId: string) {
+    return this.httpClient.get(
+      vars.apiUri + '/task/withParticipantId/' + participantId
+    );
+  }
   uploadTaskPhoto(file: File, taskId: string) {
     const fd = new FormData();
     fd.append('file', file);
     fd.append('taskId', taskId);
     return this.httpClient.post(vars.apiUri + '/task/uploadTaskPhoto', fd);
+  }
+  getTasksByProjectId(projectId: string) {
+    return this.httpClient.get(
+      vars.apiUri + '/task/getTasksByProjectId/' + projectId
+    );
   }
 }
