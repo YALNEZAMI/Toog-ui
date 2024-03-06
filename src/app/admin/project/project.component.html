@@ -76,7 +76,7 @@
       </div>
     </div>
     <!--participants-->
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap space-x-1 my-1">
       <div
         *ngFor="let participant of project.participants"
         class="w-max p-2 bg-gray-300 rounded"
@@ -107,6 +107,34 @@
 
     <div class="flex flex-wrap">
       <app-task *ngFor="let task of getTasks()" [task]="task"></app-task>
+    </div>
+  </div>
+  <!--delete the team button-->
+  <button
+    (click)="deleteConfirm = !deleteConfirm"
+    class="bg-red-600 hover:bg-red-500 p-3 w-full text-white"
+  >
+    Delete the project
+  </button>
+  <!--delete confirm panel-->
+  <div
+    *ngIf="deleteConfirm"
+    class="fixed top-1/2 left-1/4 w-1/2 h-max p-3 bg-white rounded"
+  >
+    <h1 class="text-center">Are you sure ?</h1>
+    <div class="flex space-x-2">
+      <button
+        (click)="deleteProject()"
+        class="w-1/2 text-center bg-orange-600 hover:bg-orange-500"
+      >
+        yes
+      </button>
+      <button
+        (click)="deleteConfirm = !deleteConfirm"
+        class="w-1/2 text-center bg-blue-600 hover:bg-blue-500"
+      >
+        no
+      </button>
     </div>
   </div>
 </main>

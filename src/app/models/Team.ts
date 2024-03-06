@@ -4,5 +4,6 @@ export interface Team {
   id?: string;
   name?: string;
   members?: User[];
+  owner?: User;
   photo?: string;
 }

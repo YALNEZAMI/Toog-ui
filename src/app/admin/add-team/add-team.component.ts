@@ -22,6 +22,7 @@ export class AddTeamComponent {
     name: '',
     members: [this.userService.getUser()],
     photo: vars.apiUri + '/teamPhoto/default_team.png',
+    owner: this.userService.getUser(),
   };
   teamPhoto: any;
   searchParticipantsKey: string = '';
@@ -51,7 +52,7 @@ export class AddTeamComponent {
             this.return();
           });
       } else {
-        this.return;
+        this.return();
       }
     });
   }

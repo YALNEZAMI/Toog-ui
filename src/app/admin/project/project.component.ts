@@ -36,6 +36,7 @@ export class ProjectViewComponent {
   project: Project = { name: '', description: '', deadLine: '' };
   tasks: Task[] = [];
   onlyMyTasks: boolean = false;
+  deleteConfirm: boolean = false;
   //methods
   // seeMoreDescription() {}
   // seeLessDescription() {}
@@ -86,5 +87,10 @@ export class ProjectViewComponent {
   }
   return() {
     this.router.navigate(['/admin/dashbord']);
+  }
+  deleteProject() {
+    this.projectService.deleteProject(this.project.id!).subscribe((n) => {
+      this.return();
+    });
   }
 }
