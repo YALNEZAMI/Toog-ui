@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "store_ui": {
+    "Toog-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/store_ui",
+            "outputPath": "dist/Toog-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "store_ui:build:production"
+              "buildTarget": "Toog-ui:build:production"
             },
             "development": {
-              "buildTarget": "store_ui:build:development"
+              "buildTarget": "Toog-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "store_ui:build"
+            "buildTarget": "Toog-ui:build"
           }
         },
         "test": {
