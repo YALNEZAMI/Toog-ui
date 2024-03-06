@@ -83,4 +83,9 @@ export class TeamViewComponent {
       this.return();
     });
   }
+  makeProject() {
+    this.router.navigate(['/admin/addProject'], {
+      queryParams: { teamId: this.team.id! },
+    });
+  }
 }

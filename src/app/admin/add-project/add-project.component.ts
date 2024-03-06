@@ -3,10 +3,11 @@ import { Project } from '../../models/Project';
 import { UserService } from '../../Services/user.service';
 import { User } from '../../models/User';
 import { Task } from '../../models/Task';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../Services/project.service';
 import { vars } from '../../env';
 import { TaskService } from '../../Services/task.service';
+import { TeamService } from '../../Services/team.service';
 @Component({
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
@@ -18,8 +19,23 @@ export class AddProjectComponent {
     private userService: UserService,
     private projectService: ProjectService,
     private taskService: TaskService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private teamService: TeamService
+  ) {
+    //if the project is initialized with a team
+    const teamId = this.activatedRoute.snapshot.queryParamMap.get('teamId');
+    if (teamId != null) {
+      //add every non already existing member of the team to the project participants
+      this.teamService.getTeamById(teamId).subscribe((t) => {
+        for (let member of t.members!) {
+          if (!this.isAlreadyMember(member.id!)) {
+            this.project.participants?.push(member);
+          }
+        }
+      });
+    }
+  }
   //attributes
   project: Project = {
     name: '',
@@ -126,15 +142,21 @@ export class AddProjectComponent {
         this.resultingParticipants = users;
       });
   }
+  isAlreadyMember(idUser: string): boolean {
+    for (let participantIterator of this.project.participants!) {
+      if (idUser == participantIterator.id) {
+        return true;
+      }
+    }
+    return false;
+  }
   addParticipantToProject(participant: User) {
     //reset the search key and result to empty
     this.searchParticipantsKey = '';
     this.resultingParticipants = [];
     //check if already selected
-    for (let participantIterator of this.project.participants!) {
-      if (participant.id == participantIterator.id) {
-        return;
-      }
+    if (this.isAlreadyMember(participant.id!)) {
+      return;
     }
     //add the participant to the participants array
     this.project.participants!.push(participant);

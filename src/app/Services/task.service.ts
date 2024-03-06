@@ -29,4 +29,7 @@ export class TaskService {
       vars.apiUri + '/task/getTasksByProjectId/' + projectId
     );
   }
+  getTaskById(id: string) {
+    return this.httpClient.get(`${vars.apiUri}/task/${id}`);
+  }
 }
