@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Team } from '../../models/Team';
 import { vars } from '../../env';
 import { User } from '../../models/User';
@@ -15,13 +15,23 @@ export class AddTeamComponent {
   constructor(
     private router: Router,
     private userService: UserService,
-    private teamService: TeamService
-  ) {}
+    private teamService: TeamService,
+    private route: ActivatedRoute
+  ) {
+    //update team case
+    const update = this.route.snapshot.queryParamMap.get('update');
+    if (update) {
+      const teamId = this.route.snapshot.queryParamMap.get('teamId') || '';
+      this.teamService.getTeamById(teamId).subscribe((t) => {
+        this.team = t;
+      });
+    }
+  }
   //attributes
   team: Team = {
     name: '',
     members: [this.userService.getUser()],
-    photo: vars.apiUri + '/teamPhoto/default_team.png',
+    photo: vars.apiUri + '/default_team.png',
     owner: this.userService.getUser(),
   };
   teamPhoto: any;
@@ -49,7 +59,9 @@ export class AddTeamComponent {
           .uploadTeamPhoto(this.teamPhoto, t.id!)
           .subscribe((t2) => {
             //redirect to dashboard
-            this.return();
+            setTimeout(() => {
+              this.return();
+            }, 1000);
           });
       } else {
         this.return();

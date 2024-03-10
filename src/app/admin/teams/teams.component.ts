@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '../../Services/team.service';
 import { Team } from '../../models/Team';
 import { UserService } from '../../Services/user.service';
@@ -14,14 +14,25 @@ export class TeamsComponent {
   constructor(
     private router: Router,
     private teamService: TeamService,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute
   ) {
-    //get initial teams
-    this.teamService
-      .getTeamsWithMemberId(this.userService.getUser().id!)
-      .subscribe((teams: any) => {
-        this.teams = teams;
-      });
+    const mine = this.route.snapshot.queryParamMap.get('mine');
+    if (mine) {
+      //get my teams where am owner
+      this.teamService
+        .getTeamsWithOwnerId(this.userService.getUser().id!)
+        .subscribe((teams: any) => {
+          this.teams = teams;
+        });
+    } else {
+      //get initial teams
+      this.teamService
+        .getTeamsWithMemberId(this.userService.getUser().id!)
+        .subscribe((teams: any) => {
+          this.teams = teams;
+        });
+    }
   }
   //attributes
   teams: Team[] = [];

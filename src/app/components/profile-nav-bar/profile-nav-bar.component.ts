@@ -9,14 +9,22 @@ import { Router } from '@angular/router';
 export class ProfileNavBarComponent {
   //constructor
   constructor(private userService: UserService, private router: Router) {}
-  //methods
 
+  //methods
   logout = () => {
     this.userService.setUser({});
     this.router.navigate(['/auth/login']);
   };
-  myProjects = () => {};
-  myTasks = () => {};
+  myProjects = () => {
+    this.router.navigate(['/admin/projects'], {
+      queryParams: { mine: true },
+    });
+  };
+  myTeams = () => {
+    this.router.navigate(['/admin/teams'], {
+      queryParams: { mine: true },
+    });
+  };
 
   //items
   items: item[] = [
@@ -41,10 +49,11 @@ export class ProfileNavBarComponent {
       classes: {
         'bg-green-500': true,
       },
-      method: this.myTasks,
+      method: this.myTeams,
     },
   ];
 }
+
 interface item {
   name: string;
   classes: any;

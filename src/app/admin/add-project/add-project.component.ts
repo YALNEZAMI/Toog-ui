@@ -35,6 +35,21 @@ export class AddProjectComponent {
         }
       });
     }
+
+    //if the user want update an existing project
+    const update = this.activatedRoute.snapshot.queryParamMap.get('update');
+    if (update) {
+      const projectId =
+        this.activatedRoute.snapshot.queryParamMap.get('projectId') || '';
+      //init project
+      this.projectService.getProjectById(projectId).subscribe((p: any) => {
+        this.project = p;
+      });
+      //init tasks
+      this.taskService.getTasksByProjectId(projectId).subscribe((ts: any) => {
+        this.tasks = ts;
+      });
+    }
   }
   //attributes
   project: Project = {
@@ -42,7 +57,7 @@ export class AddProjectComponent {
     description: '',
     deadLine: new Date(),
     owner: this.userService.getUser(),
-    photo: vars.apiUri + '/projectPhoto/default_project.png',
+    photo: vars.apiUri + '/default_project.png',
     participants: [
       this.userService.getUser(),
       // { name: 'yaser' }, { name: 'munir' }
@@ -60,7 +75,7 @@ export class AddProjectComponent {
     participants: [
       // { name: 'yaser' }, { name: 'munir' }
     ],
-    photo: vars.apiUri + '/taskPhoto/default_task.png',
+    photo: vars.apiUri + '/default_task.png',
   };
   tasks: Task[] = [];
   tasksPhotos: any[] = [];
@@ -86,6 +101,8 @@ export class AddProjectComponent {
     return this.project.participants;
   }
   createProject() {
+    //make a suspension feel
+
     //disable the create button
     this.isCreating = true;
     //check exeptions
@@ -127,7 +144,7 @@ export class AddProjectComponent {
         //redirect to dashbord
         setTimeout(() => {
           this.router.navigate(['/admin/dashbord']);
-        }, 1000 * this.tasksPhotos.length);
+        }, 1000 * this.tasksPhotos.length + 1000);
       });
   }
   searchParticipant() {
@@ -190,13 +207,13 @@ export class AddProjectComponent {
       participants: [
         // { name: 'yaser' }, { name: 'munir' }
       ],
-      photo: vars.apiUri + '/taskPhoto/default_task.png',
+      photo: vars.apiUri + '/default_task.png',
     };
     //reset default img
     const photo = document.getElementById(
       'taskPhotoPreview'
     ) as HTMLImageElement;
-    photo.src = vars.apiUri + '/taskPhoto/default_task.png';
+    photo.src = vars.apiUri + '/default_task.png';
   }
   addParticipantToTask(participant: User) {
     //check if already selected
@@ -225,7 +242,15 @@ export class AddProjectComponent {
     });
   }
   isInculdedInTaskParticipants(participant: User): boolean {
-    return this.task.participants!.includes(participant);
+    const singleton =
+      this.task.participants?.filter((p) => {
+        return (participant.id = p.id);
+      }) || [];
+    if ((singleton.length = 0)) {
+      return false;
+    } else {
+      return true;
+    }
   }
   //return to dashbord method
   return() {
@@ -235,6 +260,12 @@ export class AddProjectComponent {
     this.tasks = this.tasks.filter((t) => {
       return t != task;
     });
+    //delete task from api if it exists
+    if (task.id) {
+      this.taskService.deleteTaskId(task.id).subscribe((t) => {
+        console.log('task deleted from api');
+      });
+    }
   }
   //task photo
   clickTaskPhoto() {
@@ -294,5 +325,11 @@ export class AddProjectComponent {
     console.log(formattedDate);
 
     return '2024-03-04';
+  }
+  goToTask(task: Task) {
+    if (task.id == undefined) {
+      return;
+    }
+    this.router.navigate([`/admin/tasks/${task.id}`]);
   }
 }

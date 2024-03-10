@@ -32,4 +32,7 @@ export class TaskService {
   getTaskById(id: string) {
     return this.httpClient.get(`${vars.apiUri}/task/${id}`);
   }
+  deleteTaskId(id: string) {
+    return this.httpClient.delete(`${vars.apiUri}/task/${id}`);
+  }
 }

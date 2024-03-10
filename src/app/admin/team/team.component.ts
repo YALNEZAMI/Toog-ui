@@ -88,4 +88,9 @@ export class TeamViewComponent {
       queryParams: { teamId: this.team.id! },
     });
   }
+  goToUpdateTeam() {
+    this.router.navigate(['/admin/addTeam'], {
+      queryParams: { update: true, teamId: this.team.id },
+    });
+  }
 }

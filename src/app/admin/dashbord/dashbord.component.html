@@ -1,20 +1,6 @@
 <main class="p-2">
   <!--navbar-->
   <app-nav-bar></app-nav-bar>
-  <!-- tasks-->
-  <div class="min-h-52">
-    <span
-      (click)="goTo('/admin/tasks')"
-      class="underline text-gray-500 m-2 hover:text-gray-600 cursor-pointer"
-      >Tasks</span
-    >
-    <div id="tasksContainer" class="flex overflow-x-auto py-4">
-      <p *ngIf="tasks.length == 0" class="text-center underline w-full">
-        No tasks yet !
-      </p>
-      <app-task *ngFor="let task of tasks" [task]="task"></app-task>
-    </div>
-  </div>
   <!-- projects-->
   <div class="min-h-52">
     <span
@@ -33,6 +19,21 @@
       ></app-project>
     </div>
   </div>
+  <!-- tasks-->
+  <div class="min-h-52">
+    <span
+      (click)="goTo('/admin/tasks')"
+      class="underline text-gray-500 m-2 hover:text-gray-600 cursor-pointer"
+      >Tasks</span
+    >
+    <div id="tasksContainer" class="flex overflow-x-auto py-4">
+      <p *ngIf="tasks.length == 0" class="text-center underline w-full">
+        No tasks yet !
+      </p>
+      <app-task *ngFor="let task of tasks" [task]="task"></app-task>
+    </div>
+  </div>
+
   <!-- Teams-->
   <div class="min-h-52">
     <span

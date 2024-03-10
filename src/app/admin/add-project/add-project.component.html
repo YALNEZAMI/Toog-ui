@@ -297,8 +297,17 @@
     <div class="flex flex-wrap space-x-1 my-2">
       <span
         class="bg-gray-400 relative p-1 pr-3 rounded-md w-20 text-center truncate"
-        *ngFor="let currentTask of tasks; let i = index"
-        >{{ currentTask.name }}
+        *ngFor="let currentTask of tasks"
+      >
+        <p
+          (click)="goToTask(currentTask)"
+          [class]="{
+            'cursor-pointer': currentTask.id != undefined,
+            'hover:bg-gray-300': currentTask.id != undefined
+          }"
+        >
+          {{ currentTask.name }}
+        </p>
         <button
           (click)="popTask(currentTask)"
           class="absolute right-0 top-0 bg-red-500 rounded p-1"
@@ -308,13 +317,16 @@
       </span>
     </div>
     <!--project submit-->
+
     <div class="flex justify-center my-1">
       <button
         [disabled]="isCreating"
         type="submit"
-        class="bg-orange-300 p-2 w-full h-10 rounded-full"
+        class="bg-orange-300 items-center p-2 w-full h-10 rounded-full flex justify-center"
       >
-        Create project
+        <!--spinner-->
+        <div class="loader" *ngIf="isCreating"></div>
+        <span *ngIf="!isCreating"> Submit project </span>
       </button>
     </div>
   </form>

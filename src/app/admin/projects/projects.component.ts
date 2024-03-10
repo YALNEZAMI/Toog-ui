@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Project } from '../../models/Project';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../Services/project.service';
 
 @Component({
@@ -10,11 +10,24 @@ import { ProjectService } from '../../Services/project.service';
 })
 export class ProjectsComponent {
   //constructor
-  constructor(private router: Router, private projectService: ProjectService) {
-    //get initial projects
-    this.projectService.getProjects().subscribe((p: any) => {
-      this.projects = p;
-    });
+  constructor(
+    private router: Router,
+    private projectService: ProjectService,
+    private route: ActivatedRoute
+  ) {
+    const mine = this.route.snapshot.queryParamMap.get('mine');
+
+    if (mine) {
+      //get only projects where am the owner
+      this.projectService.getMyProjects().subscribe((p: any) => {
+        this.projects = p;
+      });
+    } else {
+      //get initial projects where am a participant
+      this.projectService.getProjects().subscribe((p: any) => {
+        this.projects = p;
+      });
+    }
   }
 
   //attributes

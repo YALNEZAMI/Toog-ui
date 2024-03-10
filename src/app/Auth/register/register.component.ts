@@ -26,7 +26,7 @@ export class RegisterComponent {
     email: '',
     password: '',
     confirmPassword: '',
-    profilePhoto: this.env.apiUri + '/profilePhoto/default_user.png',
+    profilePhoto: this.env.apiUri + '/default_user.png',
     theme: 'white',
   };
 

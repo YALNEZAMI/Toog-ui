@@ -31,6 +31,11 @@ export class ProjectService {
       vars.apiUri + '/project/withParticipant/' + this.userService.getUser().id
     );
   }
+  getMyProjects() {
+    return this.httpClient.get(
+      vars.apiUri + '/project/withOwner/' + this.userService.getUser().id
+    );
+  }
   getProjectById(id: string) {
     return this.httpClient.get(vars.apiUri + '/project/' + id);
   }

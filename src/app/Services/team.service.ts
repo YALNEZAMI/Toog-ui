@@ -16,6 +16,9 @@ export class TeamService {
   getTeamsWithMemberId(memberId: string) {
     return this.httpClient.get(vars.apiUri + '/team/withMemberId/' + memberId);
   }
+  getTeamsWithOwnerId(memberId: string) {
+    return this.httpClient.get(vars.apiUri + '/team/withOwnerId/' + memberId);
+  }
   getTeamById(id: string): Observable<Team> {
     return this.httpClient.get(vars.apiUri + '/team/' + id);
   }
