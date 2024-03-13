@@ -42,4 +42,9 @@ export class ProjectService {
   deleteProject(projectId: string) {
     return this.httpClient.delete(`${vars.apiUri}/project/${projectId}`);
   }
+  deleteProjectsOfUser(userId: string) {
+    return this.httpClient.delete(
+      `${vars.apiUri}/project/deleteProjectsOfUser/${userId}`
+    );
+  }
 }

@@ -41,4 +41,9 @@ export class TeamService {
   deleteTeam(teamId: string) {
     return this.httpClient.delete(`${vars.apiUri}/team/${teamId}`);
   }
+  deleteTeamsOfOwner(userId: string) {
+    return this.httpClient.delete(
+      `${vars.apiUri}/team/deleteTeamsOfOwner/${userId}`
+    );
+  }
 }

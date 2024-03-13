@@ -52,4 +52,7 @@ export class UserService {
   searchUserByName(key: string) {
     return this.httpClient.get(vars.apiUri + '/user/searchByName/' + key);
   }
+  deleteUser(id: string) {
+    return this.httpClient.delete(vars.apiUri + '/user/' + id);
+  }
 }

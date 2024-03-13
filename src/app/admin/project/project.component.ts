@@ -171,9 +171,9 @@ export class ProjectViewComponent {
   isInculdedInTaskParticipants(participant: User): boolean {
     const singleton =
       this.task.participants?.filter((p) => {
-        return (participant.id = p.id);
+        return participant.id == p.id;
       }) || [];
-    if ((singleton.length = 0)) {
+    if (singleton.length == 0) {
       return false;
     } else {
       return true;

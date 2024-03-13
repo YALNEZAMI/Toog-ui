@@ -150,11 +150,20 @@ export class TaskViewComponent {
   }
   updateTask() {
     //update the task in the api
-    this.taskService.createTask(this.task).subscribe((t) => {
+    this.taskService.createTask(this.task).subscribe((t: Task) => {
       //set the local task to the updated oen
-      this.task = t;
-      //hide the update form
-      this.updateFromBool = false;
+      //update the file if exist
+      if (this.taskPhoto) {
+        this.taskService
+          .uploadTaskPhoto(this.taskPhoto, t.id!)
+          .subscribe((t2: Task) => {
+            this.task = t2;
+            //hide the update form
+            this.updateFromBool = false;
+          });
+      } else {
+        this.updateFromBool = false;
+      }
     });
   }
 }

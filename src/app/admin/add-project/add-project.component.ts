@@ -236,17 +236,20 @@ export class AddProjectComponent {
       });
     }
   }
+
   popTaskParticipant(participant: User) {
+    console.log(1);
+
     this.task.participants = this.task.participants?.filter((p) => {
-      return p != participant;
+      return p.id != participant.id;
     });
   }
   isInculdedInTaskParticipants(participant: User): boolean {
     const singleton =
       this.task.participants?.filter((p) => {
-        return (participant.id = p.id);
+        return participant.id == p.id;
       }) || [];
-    if ((singleton.length = 0)) {
+    if (singleton.length == 0) {
       return false;
     } else {
       return true;

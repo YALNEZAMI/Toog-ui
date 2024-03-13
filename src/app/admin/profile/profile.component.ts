@@ -3,6 +3,8 @@ import { User } from '../../models/User';
 import { UserService } from '../../Services/user.service';
 import { vars } from '../../env';
 import { Router } from '@angular/router';
+import { ProjectService } from '../../Services/project.service';
+import { TeamService } from '../../Services/team.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -10,7 +12,12 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent {
   //constructor
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private projectService: ProjectService,
+    private teamService: TeamService
+  ) {}
   //properties
   env = vars;
   response: any = {
@@ -30,6 +37,7 @@ export class ProfileComponent {
     profilePhoto: this.userService.getUser().profilePhoto,
     theme: this.userService.getUser().theme,
   };
+  confirmDeleteAccount: boolean = false;
   //methods
   changeFile(event: any) {
     const imagePreview = document.getElementById(
@@ -101,5 +109,18 @@ export class ProfileComponent {
   //return to dashbord method
   return() {
     this.router.navigate(['/admin/dashbord']);
+  }
+  deleteAccount() {
+    const userId = this.user.id!;
+    //delete user
+    this.userService.deleteUser(userId).subscribe(() => {
+      //delete projects and its tasks where am owner
+      this.projectService.deleteProjectsOfUser(userId).subscribe(() => {
+        //delete teams where am owner
+        this.teamService.deleteTeamsOfOwner(userId).subscribe(() => {
+          this.router.navigate(['/auth/login']);
+        });
+      });
+    });
   }
 }

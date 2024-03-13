@@ -78,7 +78,9 @@ export class RegisterComponent {
               //set user in the store
               this.userService.setUser(updatedUser);
               //redirect to dashbord
-              this.router.navigate(['/admin/dashbord']);
+              setTimeout(() => {
+                this.router.navigate(['/admin/dashbord']);
+              }, 1000);
             });
         } else {
           this.router.navigate(['/admin/dashbord']);
